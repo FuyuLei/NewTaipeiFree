@@ -118,5 +118,5 @@ public class Place {
     public void setWgs84aY(String wgs84aY) {
         this.wgs84aY = wgs84aY;
     }
-    
+
 }
