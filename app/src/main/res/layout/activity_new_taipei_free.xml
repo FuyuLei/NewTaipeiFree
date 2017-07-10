@@ -3,20 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FCFF91"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="comn.example.user.newtaipeifree.activity.MainActivity"
-    android:background="#FCFF91">
+    tools:context="comn.example.user.newtaipeifree.activity.MainActivity">
 
-    <SearchView
-        android:id="@+id/search_ntf"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:iconifiedByDefault="false"
-        android:searchIcon="@drawable/ic_search_24dp"
-        android:queryBackground="@null"
-        android:background="#d7c4ff" />
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edt_word"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:background="@drawable/ic_search_40dp" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/lv_new_taipei_free"
