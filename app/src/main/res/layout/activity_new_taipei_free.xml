@@ -5,32 +5,33 @@
     android:layout_height="match_parent"
     android:background="#FCFF91"
     android:orientation="vertical"
-    android:padding="16dp"
-    tools:context="comn.example.user.newtaipeifree.activity.MainActivity">
+    tools:context="comn.example.user.newtaipeifree.activity.MainActivity"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/frame_bg">
 
         <EditText
             android:id="@+id/edt_word"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <ImageView
             android:id="@+id/iv_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:background="@drawable/ic_search_40dp" />
+            android:src="@drawable/ic_search_40dp" />
     </LinearLayout>
 
     <ListView
         android:id="@+id/lv_new_taipei_free"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </ListView>
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"/>
 
 </LinearLayout>
