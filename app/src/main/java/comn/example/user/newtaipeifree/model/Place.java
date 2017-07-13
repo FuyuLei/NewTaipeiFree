@@ -119,4 +119,22 @@ public class Place {
         this.wgs84aY = wgs84aY;
     }
 
+    @Override
+    public String toString() {
+        return "Place{" +
+                "id='" + id + '\'' +
+                ", spot_name='" + spot_name + '\'' +
+                ", type='" + type + '\'' +
+                ", company='" + company + '\'' +
+                ", district='" + district + '\'' +
+                ", address='" + address + '\'' +
+                ", apparatus_name='" + apparatus_name + '\'' +
+                ", latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
+                ", twd97X='" + twd97X + '\'' +
+                ", twd97Y='" + twd97Y + '\'' +
+                ", wgs84aX='" + wgs84aX + '\'' +
+                ", wgs84aY='" + wgs84aY + '\'' +
+                '}';
+    }
 }

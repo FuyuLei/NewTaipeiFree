@@ -21,6 +21,7 @@ import java.util.List;
 
 import comn.example.user.newtaipeifree.R;
 import comn.example.user.newtaipeifree.adapter.NewTaipeiFreeAdapter;
+import comn.example.user.newtaipeifree.model.Data;
 import comn.example.user.newtaipeifree.model.Place;
 import comn.example.user.newtaipeifree.retrofit.NewTaipeiFreeService;
 import retrofit2.Call;
@@ -28,7 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends CommonActivity implements TextWatcher, View.OnClickListener {
+public class MainActivity extends CommonActivity implements View.OnClickListener {
 
     private ListView lv;
     private ArrayList<Place> list_place;
@@ -36,6 +37,7 @@ public class MainActivity extends CommonActivity implements TextWatcher, View.On
     private ImageView search;
     private EditText word;
     private NewTaipeiFreeAdapter adapter;
+    private Data data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,68 +55,108 @@ public class MainActivity extends CommonActivity implements TextWatcher, View.On
 
         getNewTaipeiFree();
 
-        lv.setTextFilterEnabled(true);
+
         search.setOnClickListener(this);
+//        lv.setTextFilterEnabled(true);
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        MainActivity.this.adapter.getFilter().filter(s);
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
-    }
 
     private void updateAdapter() {
         ((NewTaipeiFreeAdapter) lv.getAdapter()).notifyDataSetChanged();
     }
 
     private void getNewTaipeiFree() {
-        NewTaipeiFreeService service = NewTaipeiFreeService.retrofit.create(NewTaipeiFreeService.class);
-        Call<String> call = service.getData();
+        Call<Data> call = NewTaipeiFreeService.service.getData();
         showLoadingDialog();
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<Data>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<Data> call, Response<Data> response) {
                 dismissLoadingDialog();
-                Log.d("test", response.body());
-                try {
-                    JSONObject j = new JSONObject(response.body());
-                    JSONArray array = j.getJSONObject("result").getJSONArray("records");
-                    list_place.clear();
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject o = array.getJSONObject(i);
-                        Place pla = new Place();
+                data = response.body();
+                Log.d("test", data.toString());
+                list_place.clear();
+                list_place.addAll(data.getResult().getPlace());
+                list_place_show.clear();
+                list_place_show.addAll(list_place);
+                updateAdapter();
+            }
 
-                        pla.setId(o.getString("id"));
-                        pla.setSpot_name(o.getString("spot_name"));
-                        pla.setType(o.getString("type"));
-                        pla.setCompany(o.getString("company"));
-                        pla.setDistrict(o.getString("district"));
-                        pla.setAddress(o.getString("address"));
-                        pla.setApparatus_name(o.getString("apparatus_name"));
-                        pla.setLatitude(o.getString("latitude"));
-                        pla.setLongitude(o.getString("longitude"));
-                        pla.setTwd97X(o.getString("twd97X"));
-                        pla.setTwd97Y(o.getString("twd97Y"));
-                        pla.setWgs84aX(o.getString("wgs84aX"));
-                        pla.setWgs84aY(o.getString("wgs84aY"));
-                        list_place.add(pla);
-                    }
-                    list_place_show.clear();
-                    list_place_show.addAll(list_place);
-                    updateAdapter();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            @Override
+            public void onFailure(Call<Data> call, Throwable t) {
+                dismissLoadingDialog();
+                Toast.makeText(MainActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+                Log.d("test", t.toString());
+            }
+        });
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        String keyword = word.getText().toString();
+        list_place_show.clear();
+        for (Place place : list_place) {
+            if (place.getAddress().contains(keyword)) {
+                list_place_show.add(place);
+            }
+        }
+        updateAdapter();
+    }
+
+//    @Override
+//    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//    }
+//
+//    @Override
+//    public void onTextChanged(CharSequence s, int start, int before, int count) {
+//        MainActivity.this.adapter.getFilter().filter(s);
+//    }
+//
+//    @Override
+//    public void afterTextChanged(Editable s) {
+//
+//    }
+
+//version2    private void getNewTaipeiFree() {
+//        NewTaipeiFreeService service = NewTaipeiFreeService.retrofit.create(NewTaipeiFreeService.class);
+//        Call<String> call = service.getData();
+//        showLoadingDialog();
+//        call.enqueue(new Callback<String>() {
+//            @Override
+//            public void onResponse(Call<String> call, Response<String> response) {
+//                dismissLoadingDialog();
+//                Log.d("test", response.body());
 //                try {
+//                    JSONObject j = new JSONObject(response.body());
+//                    JSONArray array = j.getJSONObject("result").getJSONArray("records");
+//                    list_place.clear();
+//                    for (int i = 0; i < array.length(); i++) {
+//                        JSONObject o = array.getJSONObject(i);
+//                        Place pla = new Place();
+//
+//                        pla.setId(o.getString("id"));
+//                        pla.setSpot_name(o.getString("spot_name"));
+//                        pla.setType(o.getString("type"));
+//                        pla.setCompany(o.getString("company"));
+//                        pla.setDistrict(o.getString("district"));
+//                        pla.setAddress(o.getString("address"));
+//                        pla.setApparatus_name(o.getString("apparatus_name"));
+//                        pla.setLatitude(o.getString("latitude"));
+//                        pla.setLongitude(o.getString("longitude"));
+//                        pla.setTwd97X(o.getString("twd97X"));
+//                        pla.setTwd97Y(o.getString("twd97Y"));
+//                        pla.setWgs84aX(o.getString("wgs84aX"));
+//                        pla.setWgs84aY(o.getString("wgs84aY"));
+//                        list_place.add(pla);
+//                    }
+//                    list_place_show.clear();
+//                    list_place_show.addAll(list_place);
+//                    updateAdapter();
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//version1                try {
 //                    JSONObject j = new JSONObject(response.body()).getJSONObject("retVal");
 //                    Iterator<String> keys = j.keys();
 //                    list_place.clear();
@@ -143,27 +185,14 @@ public class MainActivity extends CommonActivity implements TextWatcher, View.On
 //                } catch (JSONException e) {
 //                    e.printStackTrace();
 //                }
-            }
+//            }
+//            @Override
+//            public void onFailure(Call<String> call, Throwable t) {
+//                dismissLoadingDialog();
+//                Toast.makeText(MainActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+//                Log.d("test", t.toString());
+//            }
+//        });
+//    }
 
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                dismissLoadingDialog();
-                Toast.makeText(MainActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
-                Log.d("test", t.toString());
-            }
-        });
-    }
-
-    @Override
-    public void onClick(View v) {
-        String keyword = word.getText().toString();
-        list_place_show.clear();
-        for (Place place:list_place){
-            if(place.getAddress().contains(keyword)){
-                list_place_show.add(place);
-            }
-        }
-        updateAdapter();
-    }
 }

@@ -66,40 +66,40 @@ public class NewTaipeiFreeAdapter extends BaseAdapter {
         }
     }
 
-    public Filter getFilter() {
-        Filter filter = new Filter() {
-
-            @SuppressWarnings("unchecked")
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                list= (ArrayList<Place>) results.values;
-                notifyDataSetChanged();
-            }
-
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults results = new FilterResults();
-                ArrayList<String> FilteredList= new ArrayList<String>();
-                if (constraint == null || constraint.length() == 0) {
-                    // No filter implemented we return all the list
-                    results.values = list;
-                    results.count = list.size();
-                }
-                else {
-                    for (int i = 0; i < list.size(); i++) {
-                        String data = String.valueOf(list.get(i));
-                        if (data.toLowerCase().contains(constraint.toString()))  {
-                            FilteredList.add(data);
-                        }
-                    }
-                    results.values = FilteredList;
-                    results.count = FilteredList.size();
-                }
-                return results;
-            }
-        };
-        return filter;
-    }
+//    public Filter getFilter() {
+//        Filter filter = new Filter() {
+//
+//            @SuppressWarnings("unchecked")
+//            @Override
+//            protected void publishResults(CharSequence constraint, FilterResults results) {
+//                list= (ArrayList<Place>) results.values;
+//                notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            protected FilterResults performFiltering(CharSequence constraint) {
+//                FilterResults results = new FilterResults();
+//                ArrayList<String> FilteredList= new ArrayList<String>();
+//                if (constraint == null || constraint.length() == 0) {
+//                    // No filter implemented we return all the list
+//                    results.values = list;
+//                    results.count = list.size();
+//                }
+//                else {
+//                    for (int i = 0; i < list.size(); i++) {
+//                        String data = String.valueOf(list.get(i));
+//                        if (data.toLowerCase().contains(constraint.toString()))  {
+//                            FilteredList.add(data);
+//                        }
+//                    }
+//                    results.values = FilteredList;
+//                    results.count = FilteredList.size();
+//                }
+//                return results;
+//            }
+//        };
+//        return filter;
+//    }
 
 
 }
